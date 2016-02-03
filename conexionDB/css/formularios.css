@@ -1,0 +1,104 @@
+/* Reset */
+body, h2, h4{
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
+
+/* Fuente de la letra */
+body { 
+	font:13px/1.231 sans-serif; 
+	*font-size:small; 
+} 
+select, input, button { font:99% sans-serif; }
+/* Titulo del formulario */
+h2 {
+	margin-bottom:15px;
+	font-style:italic;
+	font-weight:normal;
+	font-size:32px;
+}
+/* Subtitulo */
+ h4 { 
+	font-weight: bold; 
+}
+
+/* Formulario */
+.contact-form {
+	background-color:#f7f2f9;
+	width:95%;
+	padding:20px;
+	margin: 100px 0 auto;	
+	border: 6px solid #a78fc1;
+	-moz-border-radius:15px;
+	-webkit-border-radius:15px;
+	border-radius:15px;
+	position:relative;
+}
+
+/* Letra general */
+.contact-form input, 
+.contact-form select, 
+.contact-form label,
+.contact-form textarea {
+	font-size:15px;
+	margin-bottom:2px;
+	width: 200px;
+	display:block;
+	float:left;
+}
+
+/* Borde de las cajas */
+.contact-form input, 
+.contact-form select,
+.contact-form textarea {
+	width:650px;
+	border: 1px solid #e0cee8;
+	margin-bottom:20px;
+	padding:4px;
+}
+
+/* Campo seleccionado */
+.contact-form input:focus, 
+.contact-form select:focus,
+.contact-form textarea:focus{
+	border: 1px solid #ccafd8;
+	background-color: #f2ebf4;
+}
+
+/* Estrella de campo obligatorio */
+.contact-form .required {
+	font-weight:bold;
+	color:#F00;	
+}
+
+/* Boton Enviar */
+.contact-form .enviar {
+	width: 100px;
+	background-color:#333;
+	color:#FFF;
+	border:none;
+	display:block;
+	float:right;
+	margin-bottom:0px;
+	margin-right:6px;
+	background-color:#ae8fc1;
+	-moz-border-radius:8px;
+}
+.contact-form .enviar:hover {
+	background-color: #cea6dd;
+}
+.contact-form .enviar:active {
+	position:relative;
+	top:1px;
+}
+
+/* Informacion de campos obligatorios */
+#req-field-desc {
+	font-style:italic;
+}
+
+

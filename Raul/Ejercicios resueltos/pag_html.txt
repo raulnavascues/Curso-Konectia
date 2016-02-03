@@ -1,0 +1,10 @@
+<html>
+<head>
+<title>Ejercicio PHP</title>
+</head>
+<body>
+	Primera Linea
+	<br />
+	Segunda Linea
+</body>
+</html>

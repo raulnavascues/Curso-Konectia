@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es">
+	<head>
+		<title>Pedidos de la pizzeria</title>
+	</head>
+	<body>
+		<form action="pizzeria.php" method="post">
+			<fieldset>
+				<legend>Dar de alta los pedidos</legend>
+				<div>
+					<input type="hidden" id="accion" name="accion" value="guardar" />
+				</div>
+				<div>
+					<span style="display: block; width: 15%; float: left;">Nombre: </span>
+					<input type="text" id="nombre" name="nombre" />
+				</div>
+				<div>
+					<span style="display: block; width: 15%; float: left;">Direccion: </span>
+					<input type="text" id="direccion" name="direccion" />
+				</div>
+				<div>
+					<span style="display: block; width: 5%; float: left;">Jamon y queso: </span>
+					<input type="checkbox" id="jamon_queso" name="jamon_queso" />
+					<span>Cantidad :</span>
+					<input type="text" id="c_jamon_queso" name="c_jamon_queso" />
+				</div>
+				<div>
+					<span style="display: block; width: 5%; float: left;">Napolitana: </span>
+					<input type="checkbox" id="napolitana" name="napolitana" />
+					<span>Cantidad: </span>
+					<input type="text" id="c_napolitana" name="c_napolitana" />
+				</div>
+				<div>
+					<span style="display: block; width: 5%; float: left;">Mozzarella: </span>
+					<input type="checkbox" id="mozzarella" name="mozzarella" />
+					<span>Cantidad: </span>
+					<input type="text" id="c_mozzarella" name="c_mozzarella" />
+				</div>
+				
+				<div>
+					<input type="submit" value="Confirmar" />
+				</div>
+			</fieldset>
+		</form>		
+	</body>
+	
+</html>

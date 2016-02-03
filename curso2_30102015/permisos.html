@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <title>Empleamos las funciones fileperms() y chkmod()</title>
+        <script src="jquery-1.11.3.js"></script>
+        <script>
+        	var permisos = 0;
+        
+        	function cargarPermisos(){
+        		$.ajax({
+                        url: 'lecturaPermisos.php',
+                        data: {
+                            'fichero': $("#fichero").val()
+                        },
+                        type: 'post',
+                        //getType:'text',
+                        success:function(data){
+                        	permisos = data;
+                        	var lectura = false;
+                        	var ejecucion = false;
+                        	var escritura = false;
+                        	
+                            for(var i=0;i<3;i++){
+                            	valor = data[i];
+                            	if (valor>0){
+					                if (valor>=4){
+					                    lectura = true;
+					                    valor -= 4;
+					                }else{
+					                	lectura = false;
+					                }
+					                
+					                if(valor>=2){
+					                    escritura = true;
+					                    valor-= 2;
+					                }else{
+					                	escritura = false;
+					                }
+					                
+					                if(valor==1){
+					                    ejecucion = true;
+					                    valor -= 1;
+					                }else{
+					                	ejecucion = false;
+					                }
+					            }
+					            
+					            switch (i){
+					            	case 0:
+					            		$("#p_lectura").prop('checked', lectura);
+					            		$("#p_escritura").prop('checked',escritura);
+					            		$("#p_ejecucion").prop('checked',ejecucion);
+					            		break;
+					            	case 1:
+					            		$("#g_lectura").prop('checked',lectura);
+					            		$("#g_escritura").prop('checked',escritura);
+					            		$("#g_ejecucion").prop('checked',ejecucion);
+					            		break;
+					            	case 2:
+					            		$("#o_lectura").prop('checked',lectura);
+					            		$("#o_escritura").prop('checked',escritura);
+					            		$("#o_ejecucion").prop('checked',ejecucion);
+					            		break;
+					            }
+                            }
+                            $('#mostrar_permisos').html('0'+data);
+                        },
+                        error:function(){
+                            $("errores").html("Error");
+                        }
+                    });
+        	}
+            $(document).ready(function(){
+            	$('#fichero').change(function(){
+                    cargarPermisos();
+                });
+            
+            	
+	            //Calcular los permisos que debemos cambiar
+	            $("#p_lectura").click(function(){
+	            	var nuevosPermisos = Array(parseInt(permisos[0]),parseInt(permisos[1]),parseInt(permisos[2]));
+	            	
+	            	if ($("#p_lectura").is(':checked')){
+	            		nuevosPermisos[0] = nuevosPermisos[0] + 4; 
+	            	}else{
+	            		nuevosPermisos[0] = nuevosPermisos[0] - 4;
+	            	}
+	            	
+	            	actualizarPermisos(nuevosPermisos);
+	            });
+	            
+	            $("#p_escritura").click(function(){
+	            	var nuevosPermisos = Array(parseInt(permisos[0]),parseInt(permisos[1]),parseInt(permisos[2]));
+	            	
+	            	if ($("#p_escritura").is(':checked')){
+	            		nuevosPermisos[0] = nuevosPermisos[0] + 2; 
+	            	}else{
+	            		nuevosPermisos[0] = nuevosPermisos[0] - 2;
+	            	}
+	            	
+	            	actualizarPermisos(nuevosPermisos);
+	            });
+	            
+	            $("#p_ejecucion").click(function(){
+	            	var nuevosPermisos = Array(parseInt(permisos[0]),parseInt(permisos[1]),parseInt(permisos[2]));
+	            	
+	            	if ($("#p_ejecucion").is(':checked')){
+	            		nuevosPermisos[0] = nuevosPermisos[0] + 1; 
+	            	}else{
+	            		nuevosPermisos[0] = nuevosPermisos[0] - 1;
+	            	}
+	            	
+	            	actualizarPermisos(nuevosPermisos);
+	            });
+	            
+	            $("#g_lectura").click(function(){
+	            	var nuevosPermisos = Array(parseInt(permisos[0]),parseInt(permisos[1]),parseInt(permisos[2]));
+	            	if ($("#g_lectura").is(':checked')){
+	            		nuevosPermisos[1] = nuevosPermisos[1] + 4; 
+	            	}else{
+	            		nuevosPermisos[1] = nuevosPermisos[1] - 4;
+	            	}
+	            	actualizarPermisos(nuevosPermisos);
+	            });
+	            
+	            $("#g_escritura").click(function(){
+	            	var nuevosPermisos = Array(parseInt(permisos[0]),parseInt(permisos[1]),parseInt(permisos[2]));
+	            	
+	            	if ($("#g_escritura").is(':checked')){
+	            		nuevosPermisos[1] = nuevosPermisos[1] + 2; 
+	            	}else{
+	            		nuevosPermisos[1] = nuevosPermisos[1] - 2;
+	            	}
+	            	
+	            	actualizarPermisos(nuevosPermisos);
+	            });
+	            
+	            $("#g_ejecucion").click(function(){
+	            	var nuevosPermisos = Array(parseInt(permisos[0]),parseInt(permisos[1]),parseInt(permisos[2]));
+	            	
+	            	if ($("#g_ejecucion").is(':checked')){
+	            		nuevosPermisos[1] = nuevosPermisos[1] + 1; 
+	            	}else{
+	            		nuevosPermisos[1] = nuevosPermisos[1] - 1;
+	            	}
+	            	
+	            	actualizarPermisos(nuevosPermisos);
+	            });
+	            
+	            $("#o_lectura").click(function(){
+	            	var nuevosPermisos = Array(parseInt(permisos[0]),parseInt(permisos[1]),parseInt(permisos[2]));
+	            	if ($("#o_lectura").is(':checked')){
+	            		nuevosPermisos[2] = nuevosPermisos[2] + 4; 
+	            	}else{
+	            		nuevosPermisos[2] = nuevosPermisos[2] - 4;
+	            	}
+	            	actualizarPermisos(nuevosPermisos);
+	            });
+	            
+	            $("#o_escritura").click(function(){
+	            	var nuevosPermisos = Array(parseInt(permisos[0]),parseInt(permisos[1]),parseInt(permisos[2]));
+	            	
+	            	if ($("#o_escritura").is(':checked')){
+	            		nuevosPermisos[2] = nuevosPermisos[2] + 2; 
+	            	}else{
+	            		nuevosPermisos[2] = nuevosPermisos[2] - 2;
+	            	}
+	            	
+	            	actualizarPermisos(nuevosPermisos);
+	            });
+	            
+	            $("#o_ejecucion").click(function(){
+	            	var nuevosPermisos = Array(parseInt(permisos[0]),parseInt(permisos[1]),parseInt(permisos[2]));
+	            	
+	            	if ($("#o_ejecucion").is(':checked')){
+	            		nuevosPermisos[2] = nuevosPermisos[2] + 1; 
+	            	}else{
+	            		nuevosPermisos[2] = nuevosPermisos[2] - 1;
+	            	}
+	            	
+	            	actualizarPermisos(nuevosPermisos);
+	            });
+	            
+	            
+	            function actualizarPermisos(nuevosPermisos){
+	            	per = "";
+	            	for(i=0; i< nuevosPermisos.length;i++){
+	            		
+	            		per += nuevosPermisos[i];
+	            	}
+	            	permisos = per;
+					$("#nuevos_permisos").html('0'+ permisos);
+	            }
+	            
+	            $("#cambiar_permisos").click(function(){
+	            	$.ajax({
+	            		url: 'cambiar_permisos.php',
+                        data: {
+                            'fichero'	: $("#fichero").val(),
+                            'permisos'	: permisos
+                        },
+                        type: 'post',
+                        //getType:'text',
+                        success:function(data){
+                        	alert('Permisos cambiados');
+                        	cargarPermisos();	
+                        }
+	            	});
+	            });
+            });
+            
+        </script>
+    </head>
+    <body>
+        <div id="errores"> </div>
+        <form style="width: 70%; margin: 2% auto;">
+            <fieldset style="padding: 5%;">
+                <legend><b>Empleamos las funciones fileperms() y chkmod()</b></legend>
+                <div style="padding: 2%; border: 1px solid #000000;">
+                    <span>Selecciones el fichero: </span><input type="file" name="fichero" id="fichero" />
+                </div>
+                
+                <section style="width: 100%; display: block; padding: 1%" >
+                    <div style="padding: 2%;">
+                        <span style="width: 100%; text-align: center; display: block;"><b>Establecer los permisos que desea otorgar al fichero</b></span>
+                    </div>
+                
+                    <div style="margin-left: 10%;padding: 2%;">
+                        <span>Lectura</span>
+                        <span style="margin-left: 30px;">Escritura</span>
+                        <span style="margin-left: 20px;">Ejecucion</span>
+                    </div>
+                    <article style="width: 10%; float: left">
+                        <span style="width: 100%; display: block;">Propietario</span>
+                        <span style="width: 100%; display: block;">Grupo</span>
+                        <span style="width: 100%; display: block;">Otros</span>
+                    </article>
+                    <article style="width: 90%; display: block; float: right">
+                        <div>
+                            <span style="margin-left: 25px;"><input type="checkbox" name="p_lectura" id="p_lectura"></span>
+                            <span style="margin-left: 70px;"><input type="checkbox" name="p_escritura" id="p_escritura"></span>
+                            <span style="margin-left: 60px;"><input type="checkbox" name="p_ejecucion" id="p_ejecucion"></span>
+                        </div>
+                        
+                        <div>
+                            <span style="margin-left: 25px;"><input type="checkbox" name="g_lectura" id="g_lectura"></span>
+                            <span style="margin-left: 70px;"><input type="checkbox" name="g_escritura" id="g_escritura"></span>
+                            <span style="margin-left: 60px;"><input type="checkbox" name="g_ejecucion" id="g_ejecucion"></span>
+                        </div>
+                        <div>
+                            <span style="margin-left: 25px;"><input type="checkbox" name="o_lectura" id="o_lectura"></span>
+                            <span style="margin-left: 70px;"><input type="checkbox" name="o_escritura" id="o_escritura"></span>
+                            <span style="margin-left: 60px;"><input type="checkbox" name="o_ejecucion" id="o_ejecucion"></span>
+                        </div>
+                    </article>
+                </section>
+                <div style="clear: both;"> </div>
+                <div style="padding: 5%;">
+                    <input type="button" value="Cambiar Permisos" id="cambiar_permisos" style="margin-right: 30%;" />
+                    <input type="reset" value="Limpiar formulario" />
+                </div>
+                
+                <div>
+                    <div>
+                        <span>Permisos encontrados: </span>
+                        <span id="mostrar_permisos">0000</span>
+                    </div>
+                    <div>
+                        <span>Nuevos Permisos: </span>
+                        <span id="nuevos_permisos">0000</span>
+                    </div>
+                </div>
+            </fieldset>
+        </form>
+    </body>
+</html>
